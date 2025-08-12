@@ -1,12 +1,18 @@
 #pragma once
 
 #include "byte_stream.hh"
+#include<vector>
+#include<string>
 
 class Reassembler
 {
 public:
   // Construct Reassembler to write into given ByteStream.
-  explicit Reassembler( ByteStream&& output ) : output_( std::move( output ) ) {}
+  explicit Reassembler(ByteStream&& output);
+
+      
+ 
+
 
   /*
    * Insert a new substring to be reassembled into a ByteStream.
@@ -29,7 +35,7 @@ public:
    * The Reassembler should close the stream after writing the last byte.
    */
   void insert( uint64_t first_index, std::string data, bool is_last_substring );
-
+  
   // How many bytes are stored in the Reassembler itself?
   // This function is for testing only; don't add extra state to support it.
   uint64_t count_bytes_pending() const;
@@ -43,4 +49,11 @@ public:
 
 private:
   ByteStream output_;
+  
+  std::string inter_store={};
+  std::vector<bool>is_filled;
+  uint64_t head_index=0;
+  uint64_t last_index=0;
+  uint64_t _capacity;
+  bool eof;
 };
